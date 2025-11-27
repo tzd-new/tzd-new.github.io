@@ -4,43 +4,126 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>网址跳转 - TZD最新网址</title>
-    <link rel="stylesheet" href="style.css"> <!-- 外部CSS样式 -->
-    <script src="jump.js"></script> <!-- 外部JavaScript -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #E6EAEB;
+            font-family: Arial, '微软雅黑', '宋体', sans-serif;
+        }
+
+        .alert-box {
+            display: block;
+            position: relative;
+            margin: 96px auto 0;
+            padding: 180px 85px 22px;
+            border-radius: 10px 10px 0 0;
+            background: #FFF;
+            box-shadow: 5px 9px 17px rgba(102, 102, 102, 0.75);
+            width: 286px;
+            text-align: center;
+        }
+
+        .alert-head {
+            color: #242424;
+            font-size: 28px;
+        }
+
+        .alert-sec-circle {
+            stroke-dashoffset: 0;
+            stroke-dasharray: 735;
+            transition: stroke-dashoffset 1s linear;
+        }
+
+        .alert-sec-text {
+            position: absolute;
+            top: 11px;
+            left: 190px;
+            width: 76px;
+            color: #000;
+            font-size: 68px;
+        }
+
+        .alert-btn {
+            display: block;
+            border-radius: 10px;
+            background-color: #4AB0F7;
+            height: 55px;
+            line-height: 55px;
+            width: 286px;
+            color: #FFF;
+            font-size: 20px;
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .alert-btn:hover {
+            background-color: #6BC2FF;
+        }
+
+        .alert-footer {
+            margin-top: 20px;
+            height: 42px;
+            width: 120px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 12px;
+            color: #7A7A7A;
+        }
+        
+        .alert-footer a {
+            color: #0B85CC;
+            text-decoration: none;
+        }
+
+        .alert-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <div class="alert-box">
-        <div class="alert-circle">
-            <svg width="234" height="234">
-                <circle cx="117" cy="117" r="108" fill="#FFF" stroke="#43AEFA" stroke-width="17"></circle>
-                <circle id="sec-circle" class="alert-sec-circle" cx="117" cy="117" r="108" fill="transparent" stroke="#F4F1F1" stroke-width="18" transform="rotate(-90 117 117)" style="stroke-dashoffset: -735;"></circle>
-            </svg>
-            <span id="sec-text" class="alert-sec-text">5</span>
-            <div class="alert-body">
-                <h2 id="alert-head" class="alert-head">TZD最新网址通知</h2>
-                <div class="alert-content">
-                    <p>即将自动跳转到新的网址。</p>
-                    <p><a href="https://dash.tzdup.com/">点击此处前往最新网址</a></p>
-                </div>
-                <a id="alert-btn" class="alert-btn" href="https://dash.tzdup.com/">立即跳转</a>
+        <svg class="alert-circle" width="234" height="234">
+            <circle cx="117" cy="117" r="108" fill="#FFF" stroke="#43AEFA" stroke-width="17"></circle>
+            <circle id="sec-circle" class="alert-sec-circle" cx="117" cy="117" r="108" fill="transparent" stroke="#F4F1F1" stroke-width="18" transform="rotate(-90 117 117)" style="stroke-dashoffset: -735;"></circle>
+        </svg>
+        <div id="sec-text" class="alert-sec-text">5</div>
+        <div class="alert-body">
+            <h2 id="alert-head" class="alert-head">TZD最新网址通知</h2>
+            <div class="alert-content">
+                <p>即将自动跳转到新的网址。</p>
+                <p><a id="external-link" href="#" target="_blank">点击此处前往最新网址</a></p>
             </div>
+            <a id="alert-btn" class="alert-btn" href="#">立即跳转</a>
+        </div>
+        <div class="alert-footer">
+            <p><a href="https://tzdtag.com" target="_blank">返回首页</a></p>
         </div>
     </div>
 
     <script>
-        // 时间倒计时 & 自动跳转
+        // 目标网址（只需修改这一行）
+        const redirectUrl = "https://dash.tzdup.com/";
+
+        // 更新链接和按钮的目标
+        document.getElementById("external-link").href = redirectUrl;
+        document.getElementById("alert-btn").href = redirectUrl;
+
+        // 倒计时逻辑
         function startCountdown() {
             let time = 5;
             const secText = document.getElementById('sec-text');
             const secCircle = document.getElementById('sec-circle');
 
+            // 每秒更新倒计时
             const countdownInterval = setInterval(function() {
                 if (time === 0) {
                     clearInterval(countdownInterval);
-                    window.location.href = 'https://dash.tzdtag.com/';
+                    window.location.href = redirectUrl; // 倒计时结束后跳转
                 } else {
                     time -= 1;
                     secText.textContent = time;
-                    const offset = Math.round(time / 5 * 735);
+                    const offset = Math.round(time / 5 * 735); // 更新进度条
                     secCircle.style.strokeDashoffset = offset - 735;
                 }
             }, 1000);
